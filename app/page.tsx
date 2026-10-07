@@ -1,5 +1,7 @@
 "use client";
 
+// Halenn production landing
+
 import { useEffect, useRef } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 

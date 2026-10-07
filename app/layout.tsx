@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import DeploymentUpdateGate from "./DeploymentUpdateGate";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -29,9 +30,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const currentBuild =
+    process.env.VERCEL_GIT_COMMIT_SHA ||
+    process.env.VERCEL_DEPLOYMENT_ID ||
+    process.env.VERCEL_URL ||
+    "local";
+
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <DeploymentUpdateGate currentBuild={currentBuild} />
+      </body>
     </html>
   );
 }

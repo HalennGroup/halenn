@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import type { PointerEvent as ReactPointerEvent } from "react";
 
 function Mark({ className = "" }: { className?: string }) {
   return (
@@ -80,7 +81,7 @@ export default function Home() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.dataset.visible = "true";
+            (entry.target as HTMLElement).dataset.visible = "true";
             observer.unobserve(entry.target);
           }
         });
@@ -93,7 +94,7 @@ export default function Home() {
   }, []);
 
   const moveLight = (
-    event: React.PointerEvent<HTMLElement>,
+    event: ReactPointerEvent<HTMLElement>,
     target: HTMLElement | null
   ) => {
     if (!target) return;

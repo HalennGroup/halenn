@@ -65,29 +65,29 @@ svg {
 
 .nav-logo {
   display: grid;
-  width: 36px;
-  height: 44px;
+  width: 52px;
+  height: 54px;
   place-items: center;
+  perspective: 500px;
 }
 
 .nav-mark {
-  width: 23px;
-  height: 23px;
-  filter: drop-shadow(0 0 14px rgba(176, 199, 221, 0.12));
+  width: 34px;
+  height: 34px;
+  transform: translateZ(0);
+  filter:
+    drop-shadow(0 6px 12px rgba(0, 0, 0, 0.42))
+    drop-shadow(0 0 16px rgba(176, 199, 221, 0.12));
+  transition:
+    transform 420ms var(--ease),
+    filter 320ms ease;
 }
 
-.nav-logo .mark-left,
-.nav-logo .mark-right {
-  transition: transform 420ms var(--ease);
-  transform-origin: 60px 64px;
-}
-
-.nav-logo:hover .mark-left {
-  transform: translateX(-3px);
-}
-
-.nav-logo:hover .mark-right {
-  transform: translateX(3px);
+.nav-logo:hover .nav-mark {
+  transform: translateY(-1px) rotateX(8deg) rotateY(-8deg) scale(1.035);
+  filter:
+    drop-shadow(0 10px 18px rgba(0, 0, 0, 0.46))
+    drop-shadow(0 0 22px rgba(185, 207, 229, 0.2));
 }
 
 .nav-links {
@@ -193,12 +193,30 @@ svg {
 .hero-logo-wrap {
   position: relative;
   display: grid;
-  width: clamp(150px, 15vw, 220px);
+  width: clamp(158px, 15.5vw, 228px);
   aspect-ratio: 1.06;
   place-items: center;
   margin-bottom: 36px;
-  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));
-  transition: transform 500ms var(--ease);
+  perspective: 1100px;
+  transform:
+    perspective(1100px)
+    rotateX(var(--rx))
+    rotateY(var(--ry))
+    translateZ(0);
+  transform-style: preserve-3d;
+  transition:
+    transform 520ms var(--ease),
+    filter 320ms ease;
+  will-change: transform;
+}
+
+.hero-logo-wrap:hover {
+  transform:
+    perspective(1100px)
+    rotateX(var(--rx))
+    rotateY(var(--ry))
+    translateY(-4px)
+    scale(1.018);
 }
 
 .hero-logo-aura {
@@ -209,15 +227,46 @@ svg {
   border-radius: 50%;
   background: rgba(136, 166, 198, 0.26);
   filter: blur(32px);
-  opacity: 0.42;
+  opacity: 0.38;
+  transform: translateZ(-24px);
   transition:
     opacity 300ms ease,
     transform 500ms var(--ease);
 }
 
 .hero-logo-wrap:hover .hero-logo-aura {
-  opacity: 0.72;
-  transform: scaleX(1.18);
+  opacity: 0.68;
+  transform: translateZ(-24px) scaleX(1.16);
+}
+
+.hero-logo-glint {
+  position: absolute;
+  z-index: 3;
+  width: 78%;
+  height: 86%;
+  border-radius: 44% 44% 36% 36%;
+  background:
+    linear-gradient(
+      115deg,
+      transparent 18%,
+      rgba(255, 255, 255, 0.04) 36%,
+      rgba(230, 241, 252, 0.22) 48%,
+      rgba(255, 255, 255, 0.03) 58%,
+      transparent 74%
+    );
+  mix-blend-mode: screen;
+  opacity: 0;
+  transform: translateX(-18%) translateZ(22px);
+  filter: blur(5px);
+  pointer-events: none;
+  transition:
+    opacity 260ms ease,
+    transform 720ms var(--ease);
+}
+
+.hero-logo-wrap:hover .hero-logo-glint {
+  opacity: 0.75;
+  transform: translateX(18%) translateZ(22px);
 }
 
 .hero-mark {
@@ -225,23 +274,20 @@ svg {
   z-index: 2;
   width: 100%;
   height: 100%;
+  transform: translateZ(18px);
   filter:
-    drop-shadow(0 8px 24px rgba(10, 19, 29, 0.7))
-    drop-shadow(0 0 28px rgba(178, 202, 225, 0.12));
+    drop-shadow(0 9px 24px rgba(7, 14, 22, 0.72))
+    drop-shadow(0 0 26px rgba(178, 202, 225, 0.11));
+  transition:
+    transform 520ms var(--ease),
+    filter 320ms ease;
 }
 
-.hero-mark .mark-left,
-.hero-mark .mark-right {
-  transition: transform 520ms var(--ease);
-  transform-origin: center;
-}
-
-.hero-logo-wrap:hover .mark-left {
-  transform: translateX(-4px);
-}
-
-.hero-logo-wrap:hover .mark-right {
-  transform: translateX(4px);
+.hero-logo-wrap:hover .hero-mark {
+  transform: translateZ(28px);
+  filter:
+    drop-shadow(0 15px 28px rgba(3, 8, 13, 0.78))
+    drop-shadow(0 0 34px rgba(190, 212, 233, 0.2));
 }
 
 .hero-kicker,
@@ -1226,4 +1272,12 @@ svg {
     transform: none !important;
     opacity: 1 !important;
   }
+}
+
+
+/* Halenn mark identity: the two pieces keep a permanent center gap everywhere. */
+.mark-left,
+.mark-right {
+  transform: none;
+  transform-origin: center;
 }

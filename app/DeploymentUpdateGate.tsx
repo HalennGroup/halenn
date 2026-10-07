@@ -20,29 +20,13 @@ function shortVersion(value: string) {
 
 function UpdateMark() {
   return (
-    <svg
+    <img
       className="deployment-update-mark"
-      viewBox="0 0 120 112"
+      src="/halenn-mark.svg"
+      alt=""
       aria-hidden="true"
-      focusable="false"
-    >
-      <defs>
-        <linearGradient id="update-left" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0" stopColor="#53677d" />
-          <stop offset="0.48" stopColor="#a9b8c7" />
-          <stop offset="0.76" stopColor="#dce4ec" />
-          <stop offset="1" stopColor="#ffffff" />
-        </linearGradient>
-        <linearGradient id="update-right" x1="1" y1="1" x2="0" y2="0">
-          <stop offset="0" stopColor="#425972" />
-          <stop offset="0.48" stopColor="#91a5b9" />
-          <stop offset="0.76" stopColor="#d4dee8" />
-          <stop offset="1" stopColor="#ffffff" />
-        </linearGradient>
-      </defs>
-      <path d="M56 7 13 105h36l7-64V7Z" fill="url(#update-left)" />
-      <path d="M64 7 107 105H71l-7-64V7Z" fill="url(#update-right)" />
-    </svg>
+      draggable={false}
+    />
   );
 }
 

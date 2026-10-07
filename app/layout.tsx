@@ -1,6 +1,20 @@
 import type { Metadata, Viewport } from "next";
+import { Michroma, Space_Grotesk } from "next/font/google";
 import DeploymentUpdateGate from "./DeploymentUpdateGate";
 import "./globals.css";
+
+const bodyFont = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+const brandFont = Michroma({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-brand",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://halenn.com"),
@@ -38,7 +52,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body>
+      <body className={`${bodyFont.variable} ${brandFont.variable}`}>
         {children}
         <DeploymentUpdateGate currentBuild={currentBuild} />
       </body>

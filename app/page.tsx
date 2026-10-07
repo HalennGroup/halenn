@@ -1,66 +1,54 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
-function MiniMark({ className = "" }: { className?: string }) {
+function Mark({ className = "" }: { className?: string }) {
   return (
     <svg
       className={className}
-      viewBox="0 0 100 100"
+      viewBox="0 0 120 112"
       aria-hidden="true"
       focusable="false"
     >
       <defs>
-        <linearGradient id="miniLeft" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0" stopColor="#65778b" />
-          <stop offset="0.52" stopColor="#d8e2ed" />
-          <stop offset="1" stopColor="#f6f8fb" />
+        <linearGradient id="halenn-left" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0" stopColor="#53677d" />
+          <stop offset="0.48" stopColor="#a9b8c7" />
+          <stop offset="0.76" stopColor="#dce4ec" />
+          <stop offset="1" stopColor="#ffffff" />
         </linearGradient>
-        <linearGradient id="miniRight" x1="1" y1="1" x2="0" y2="0">
-          <stop offset="0" stopColor="#51657d" />
-          <stop offset="0.5" stopColor="#bdcbd9" />
-          <stop offset="1" stopColor="#f5f8fb" />
+        <linearGradient id="halenn-right" x1="1" y1="1" x2="0" y2="0">
+          <stop offset="0" stopColor="#425972" />
+          <stop offset="0.48" stopColor="#91a5b9" />
+          <stop offset="0.76" stopColor="#d4dee8" />
+          <stop offset="1" stopColor="#ffffff" />
         </linearGradient>
       </defs>
-      <path d="M50 7 11 91h34l5-56V7Z" fill="url(#miniLeft)" />
-      <path d="M50 7 89 91H55l-5-56V7Z" fill="url(#miniRight)" />
+
+      <g className="mark-left">
+        <path d="M60 7 13 105h37l10-64V7Z" fill="url(#halenn-left)" />
+        <path
+          d="M59.9 7 50 105h-5L54 41Z"
+          fill="rgba(255,255,255,.14)"
+        />
+      </g>
+
+      <g className="mark-right">
+        <path d="M60 7 107 105H70L60 41V7Z" fill="url(#halenn-right)" />
+        <path
+          d="M60.1 7 70 105h5L66 41Z"
+          fill="rgba(255,255,255,.1)"
+        />
+      </g>
     </svg>
   );
 }
 
-function HeroBrand({ ready }: { ready: boolean }) {
+function Arrow() {
   return (
-    <div className={`hero-brand ${ready ? "is-ready" : ""}`} aria-label="Halenn">
-      <svg className="hero-half hero-half-left" viewBox="0 0 100 120" aria-hidden="true">
-        <defs>
-          <linearGradient id="heroLeft" x1="0" y1="1" x2="1" y2="0">
-            <stop offset="0" stopColor="#52677e" />
-            <stop offset="0.46" stopColor="#a8b9ca" />
-            <stop offset="0.76" stopColor="#dbe4ed" />
-            <stop offset="1" stopColor="#ffffff" />
-          </linearGradient>
-        </defs>
-        <path d="M54 5 8 112h39l7-72V5Z" fill="url(#heroLeft)" />
-        <path d="M54 5 48 112h-6l6-80Z" fill="rgba(255,255,255,.16)" />
-      </svg>
-
-      <span className="hero-wordmark" aria-hidden="true">
-        Halenn
-      </span>
-
-      <svg className="hero-half hero-half-right" viewBox="0 0 100 120" aria-hidden="true">
-        <defs>
-          <linearGradient id="heroRight" x1="1" y1="1" x2="0" y2="0">
-            <stop offset="0" stopColor="#425971" />
-            <stop offset="0.42" stopColor="#91a5b9" />
-            <stop offset="0.74" stopColor="#d5e0ea" />
-            <stop offset="1" stopColor="#ffffff" />
-          </linearGradient>
-        </defs>
-        <path d="M46 5 92 112H53l-7-72V5Z" fill="url(#heroRight)" />
-        <path d="M46 5 52 112h6l-6-80Z" fill="rgba(255,255,255,.12)" />
-      </svg>
-    </div>
+    <svg viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M4 12 12 4M6 4h6v6" />
+    </svg>
   );
 }
 
@@ -68,70 +56,66 @@ const principles = [
   {
     number: "01",
     title: "Long-term thinking",
-    body: "We build with a longer horizon. Durable value matters more than short-term noise.",
+    body: "We optimize for enduring value, not short-lived momentum.",
   },
   {
     number: "02",
     title: "Extraordinary people",
-    body: "Strong companies begin with ambitious people who care deeply about the work.",
+    body: "The right people create the standards, energy and taste that compound.",
   },
   {
     number: "03",
     title: "Meaningful companies",
-    body: "We focus on products and businesses that can earn a lasting place in people’s lives.",
+    body: "We build focused businesses that earn a lasting place in their category.",
   },
 ];
 
 export default function Home() {
-  const [ready, setReady] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
+  const companyRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setReady(true), 180);
-
-    const revealItems = document.querySelectorAll<HTMLElement>("[data-reveal]");
+    const items = document.querySelectorAll<HTMLElement>("[data-reveal]");
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.setAttribute("data-visible", "true");
+            entry.target.dataset.visible = "true";
             observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.14, rootMargin: "0px 0px -6% 0px" }
+      { threshold: 0.14, rootMargin: "0px 0px -8% 0px" }
     );
 
-    revealItems.forEach((item) => observer.observe(item));
-
-    return () => {
-      window.clearTimeout(timer);
-      observer.disconnect();
-    };
+    items.forEach((item) => observer.observe(item));
+    return () => observer.disconnect();
   }, []);
 
-  const handlePointerMove = (event: React.PointerEvent<HTMLElement>) => {
-    const rect = heroRef.current?.getBoundingClientRect();
-    if (!rect || !heroRef.current) return;
-
+  const moveLight = (
+    event: React.PointerEvent<HTMLElement>,
+    target: HTMLElement | null
+  ) => {
+    if (!target) return;
+    const rect = target.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-    const nx = (x / rect.width - 0.5) * 2;
-    const ny = (y / rect.height - 0.5) * 2;
+    const nx = x / rect.width - 0.5;
+    const ny = y / rect.height - 0.5;
 
-    heroRef.current.style.setProperty("--pointer-x", `${x}px`);
-    heroRef.current.style.setProperty("--pointer-y", `${y}px`);
-    heroRef.current.style.setProperty("--drift-x", `${nx * 5}px`);
-    heroRef.current.style.setProperty("--drift-y", `${ny * 3}px`);
+    target.style.setProperty("--mx", `${x}px`);
+    target.style.setProperty("--my", `${y}px`);
+    target.style.setProperty("--rx", `${ny * -3.5}deg`);
+    target.style.setProperty("--ry", `${nx * 4.5}deg`);
   };
 
   return (
     <main>
       <header className="site-header">
-        <a className="nav-brand" href="#top" aria-label="Halenn home">
-          <MiniMark className="nav-mark" />
-          <span>Halenn</span>
+        <a className="nav-logo" href="#top" aria-label="Halenn home">
+          <Mark className="nav-mark" />
         </a>
+
         <nav className="nav-links" aria-label="Primary navigation">
           <a href="#companies">Companies</a>
           <a href="#principles">Principles</a>
@@ -143,176 +127,229 @@ export default function Home() {
         id="top"
         ref={heroRef}
         className="hero"
-        onPointerMove={handlePointerMove}
+        onPointerMove={(event) => moveLight(event, heroRef.current)}
       >
-        <div className="hero-grid" aria-hidden="true" />
-        <div className="hero-cursor-light" aria-hidden="true" />
-        <div className="hero-horizon" aria-hidden="true" />
+        <div className="hero-ambient" aria-hidden="true" />
+        <div className="hero-light" aria-hidden="true" />
+        <div className="hero-vignette" aria-hidden="true" />
 
-        <div className="hero-content">
-          <p className={`eyebrow intro-copy ${ready ? "is-ready" : ""}`}>
-            Parent company · Amsterdam
+        <div className="hero-inner">
+          <div className="hero-logo-wrap">
+            <div className="hero-logo-aura" aria-hidden="true" />
+            <Mark className="hero-mark" />
+          </div>
+
+          <p className="hero-kicker">Halenn · Parent company · Amsterdam</p>
+
+          <h1>
+            A parent company
+            <br />
+            for what comes next.
+          </h1>
+
+          <p className="hero-sub">
+            We create and grow focused digital companies with strong products,
+            distinct identities and a long-term view.
           </p>
 
-          <HeroBrand ready={ready} />
-
-          <div className={`hero-copy ${ready ? "is-ready" : ""}`}>
-            <h1>Building what comes next.</h1>
-            <p>
-              Halenn creates and grows focused digital companies with a long-term view.
-            </p>
+          <div className="hero-actions">
+            <a className="button button-primary" href="#companies">
+              Explore companies
+              <Arrow />
+            </a>
+            <a className="button button-ghost" href="#about">
+              About Halenn
+            </a>
           </div>
         </div>
 
-        <a className={`scroll-cue ${ready ? "is-ready" : ""}`} href="#about">
-          <span>Scroll to explore</span>
-          <span className="scroll-line" />
-        </a>
+        <div className="hero-foot">
+          <span>Building enduring digital businesses</span>
+          <a href="#about">
+            Scroll
+            <span className="hero-foot-line" />
+          </a>
+        </div>
       </section>
 
-      <section id="about" className="statement-section section-grid">
-        <div className="section-rail" aria-hidden="true" />
-        <div className="statement-wrap" data-reveal>
-          <p className="section-kicker">Halenn</p>
+      <section id="about" className="editorial-section">
+        <div className="editorial-intro" data-reveal>
+          <p className="section-label">01 · Halenn</p>
           <h2>
-            We build <span>companies</span>
+            Built to compound.
             <br />
-            designed to <span>last.</span>
+            <span>Designed to endure.</span>
           </h2>
-          <div className="statement-detail">
-            <p>
-              Halenn is a parent company for digital businesses with clear products,
-              strong identities and room to compound over time.
-            </p>
-            <p>
-              We stay close to the work, from early product decisions to the systems
-              that help each company grow.
-            </p>
-          </div>
+        </div>
+
+        <div className="editorial-copy" data-reveal>
+          <p>
+            Halenn is the foundation behind a growing group of focused digital
+            businesses. We stay close to the details that shape each company:
+            positioning, product, design, systems and long-term direction.
+          </p>
+          <p>
+            Each company keeps its own identity. Halenn provides the structure,
+            standards and patience that help good ideas become durable businesses.
+          </p>
         </div>
       </section>
 
       <section id="companies" className="companies-section">
-        <div className="section-heading" data-reveal>
+        <div className="section-head" data-reveal>
           <div>
-            <p className="section-kicker">Our companies</p>
-            <h2>Built independently. Stronger together.</h2>
+            <p className="section-label">02 · Companies</p>
+            <h2>Focused companies. One foundation.</h2>
           </div>
-          <span className="section-index">01</span>
+          <p>
+            Independent brands with shared standards for design, technology and
+            long-term quality.
+          </p>
         </div>
 
         <a
-          className="company-card"
+          ref={companyRef}
+          className="company-feature"
           href="https://aevell.com"
           target="_blank"
           rel="noreferrer"
+          onPointerMove={(event) => moveLight(event, companyRef.current)}
           data-reveal
         >
-          <div className="company-grid" aria-hidden="true" />
-          <div className="company-glow" aria-hidden="true" />
-          <div className="company-topline">
-            <span>01</span>
-            <span>Web design · Development · Maintenance</span>
-          </div>
-          <div className="company-main">
-            <div>
-              <p className="company-label">A Halenn company</p>
-              <h3>Aevell</h3>
+          <div className="company-light" aria-hidden="true" />
+
+          <div className="company-content">
+            <div className="company-meta">
+              <span>01</span>
+              <span>Web design · Development · Maintenance</span>
             </div>
-            <p className="company-description">
-              Premium websites built to perform, from the first design system to
-              ongoing maintenance and growth.
-            </p>
+
+            <div>
+              <p className="company-eyebrow">A Halenn company</p>
+              <h3>Aevell</h3>
+              <p className="company-copy">
+                Premium websites for established businesses, from strategy and
+                design through development and ongoing maintenance.
+              </p>
+            </div>
+
+            <div className="company-link">
+              <span>Visit aevell.com</span>
+              <span className="company-link-icon">
+                <Arrow />
+              </span>
+            </div>
           </div>
-          <div className="company-footer">
-            <span>aevell.com</span>
-            <span className="company-arrow" aria-hidden="true">↗</span>
+
+          <div className="company-visual" aria-hidden="true">
+            <div className="visual-orbit visual-orbit-1" />
+            <div className="visual-orbit visual-orbit-2" />
+            <div className="visual-surface visual-surface-back" />
+            <div className="visual-surface visual-surface-mid" />
+            <div className="visual-surface visual-surface-front">
+              <span>AEVELL</span>
+              <small>Digital experiences built to last.</small>
+            </div>
           </div>
         </a>
       </section>
 
       <section id="principles" className="principles-section">
-        <div className="section-heading" data-reveal>
+        <div className="section-head" data-reveal>
           <div>
-            <p className="section-kicker">How we think</p>
-            <h2>Principles that travel across every company.</h2>
+            <p className="section-label">03 · Principles</p>
+            <h2>The standards behind the work.</h2>
           </div>
-          <span className="section-index">02</span>
+          <p>
+            Different companies. The same expectation of clarity, craft and
+            durable value.
+          </p>
         </div>
 
-        <div className="principles-grid">
-          {principles.map((principle) => (
-            <article className="principle-card" key={principle.number} data-reveal>
-              <span className="principle-number">{principle.number}</span>
-              <div>
-                <h3>{principle.title}</h3>
-                <p>{principle.body}</p>
-              </div>
-              <span className="principle-plus" aria-hidden="true">+</span>
+        <div className="principles-list">
+          {principles.map((item) => (
+            <article className="principle-row" key={item.number} data-reveal>
+              <span className="principle-number">{item.number}</span>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+              <span className="principle-arrow">
+                <Arrow />
+              </span>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="structure-section">
-        <div className="section-heading" data-reveal>
-          <div>
-            <p className="section-kicker">Structure</p>
-            <h2>One foundation. Multiple focused companies.</h2>
-          </div>
-          <span className="section-index">03</span>
-        </div>
+      <section className="system-section">
+        <div className="system-shell" data-reveal>
+          <div className="system-glow" aria-hidden="true" />
 
-        <div className="structure-map" data-reveal>
-          <div className="structure-node structure-parent">
-            <MiniMark className="structure-mark" />
-            <span>Halenn</span>
-            <small>Parent company</small>
-          </div>
-
-          <div className="structure-line" aria-hidden="true">
-            <span />
+          <div className="system-left">
+            <p className="section-label">04 · Structure</p>
+            <h2>
+              One foundation.
+              <br />
+              Multiple directions.
+            </h2>
+            <p>
+              Halenn gives each company room to develop its own identity while
+              sharing the systems and standards that make quality repeatable.
+            </p>
           </div>
 
-          <div className="structure-children">
-            <a
-              className="structure-node structure-child"
-              href="https://aevell.com"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span>Aevell</span>
-              <small>Web design &amp; technology</small>
-            </a>
-            <div className="structure-node structure-child structure-future">
-              <span>Next</span>
-              <small>Built when the opportunity is right</small>
+          <div className="system-map">
+            <div className="system-root">
+              <Mark className="system-mark" />
+            </div>
+            <span className="system-stem" />
+            <div className="system-branches">
+              <span />
+              <span />
+            </div>
+            <div className="system-nodes">
+              <div className="system-node active">
+                <span>Aevell</span>
+                <small>Web design & technology</small>
+              </div>
+              <div className="system-node future">
+                <span>Next</span>
+                <small>When the opportunity is right</small>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
+      <section className="closing-section">
+        <div className="closing-light" aria-hidden="true" />
+        <div className="closing-inner" data-reveal>
+          <Mark className="closing-mark" />
+          <p className="section-label">Halenn</p>
+          <h2>
+            Enduring value
+            <br />
+            for what’s next.
+          </h2>
+          <a className="text-link" href="#top">
+            Back to top
+            <Arrow />
+          </a>
+        </div>
+      </section>
+
       <footer className="site-footer">
-        <div className="footer-grid" aria-hidden="true" />
-        <div className="footer-mark-wrap" data-reveal>
-          <MiniMark className="footer-mark" />
-        </div>
-        <div className="footer-title" data-reveal>
-          <p className="section-kicker">Halenn</p>
-          <h2>A brighter tomorrow.</h2>
-        </div>
-        <div className="footer-bottom">
-          <div>
-            <span>Halenn</span>
-            <span>Amsterdam, The Netherlands</span>
-          </div>
-          <div className="footer-links">
-            <a href="#companies">Companies</a>
-            <a href="#principles">Principles</a>
-            <a href="#about">About</a>
-          </div>
+        <div className="footer-left">
+          <Mark className="footer-mark" />
           <span>© {new Date().getFullYear()} Halenn</span>
         </div>
+
+        <div className="footer-center">
+          <a href="#companies">Companies</a>
+          <a href="#principles">Principles</a>
+          <a href="#about">About</a>
+        </div>
+
+        <span className="footer-location">Amsterdam, The Netherlands</span>
       </footer>
     </main>
   );

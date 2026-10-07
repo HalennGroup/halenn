@@ -27,17 +27,17 @@ function Mark({ className = "" }: { className?: string }) {
       </defs>
 
       <g className="mark-left">
-        <path d="M60 7 13 105h37l10-64V7Z" fill="url(#halenn-left)" />
+        <path d="M56 7 13 105h36l7-64V7Z" fill="url(#halenn-left)" />
         <path
-          d="M59.9 7 50 105h-5L54 41Z"
+          d="M55.9 7 49 105h-4L52 41Z"
           fill="rgba(255,255,255,.14)"
         />
       </g>
 
       <g className="mark-right">
-        <path d="M60 7 107 105H70L60 41V7Z" fill="url(#halenn-right)" />
+        <path d="M64 7 107 105H71l-7-64V7Z" fill="url(#halenn-right)" />
         <path
-          d="M60.1 7 70 105h5L66 41Z"
+          d="M64.1 7 71 105h4L68 41Z"
           fill="rgba(255,255,255,.1)"
         />
       </g>
@@ -137,6 +137,7 @@ export default function Home() {
         <div className="hero-inner">
           <div className="hero-logo-wrap">
             <div className="hero-logo-aura" aria-hidden="true" />
+            <div className="hero-logo-glint" aria-hidden="true" />
             <Mark className="hero-mark" />
           </div>
 

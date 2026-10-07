@@ -5,43 +5,13 @@ import type { PointerEvent as ReactPointerEvent } from "react";
 
 function Mark({ className = "" }: { className?: string }) {
   return (
-    <svg
+    <img
       className={className}
-      viewBox="0 0 120 112"
+      src="/halenn-mark.svg"
+      alt=""
       aria-hidden="true"
-      focusable="false"
-    >
-      <defs>
-        <linearGradient id="halenn-left" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0" stopColor="#53677d" />
-          <stop offset="0.48" stopColor="#a9b8c7" />
-          <stop offset="0.76" stopColor="#dce4ec" />
-          <stop offset="1" stopColor="#ffffff" />
-        </linearGradient>
-        <linearGradient id="halenn-right" x1="1" y1="1" x2="0" y2="0">
-          <stop offset="0" stopColor="#425972" />
-          <stop offset="0.48" stopColor="#91a5b9" />
-          <stop offset="0.76" stopColor="#d4dee8" />
-          <stop offset="1" stopColor="#ffffff" />
-        </linearGradient>
-      </defs>
-
-      <g className="mark-left">
-        <path d="M56 7 13 105h36l7-64V7Z" fill="url(#halenn-left)" />
-        <path
-          d="M55.9 7 49 105h-4L52 41Z"
-          fill="rgba(255,255,255,.14)"
-        />
-      </g>
-
-      <g className="mark-right">
-        <path d="M64 7 107 105H71l-7-64V7Z" fill="url(#halenn-right)" />
-        <path
-          d="M64.1 7 71 105h4L68 41Z"
-          fill="rgba(255,255,255,.1)"
-        />
-      </g>
-    </svg>
+      draggable={false}
+    />
   );
 }
 
@@ -72,8 +42,7 @@ const principles = [
 ];
 
 export default function Home() {
-  const heroRef = useRef<HTMLElement>(null);
-  const companyRef = useRef<HTMLAnchorElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const items = document.querySelectorAll<HTMLElement>("[data-reveal]");
@@ -93,21 +62,24 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-  const moveLight = (
+  const moveTilt = (
     event: ReactPointerEvent<HTMLElement>,
     target: HTMLElement | null
   ) => {
     if (!target) return;
-    const rect = target.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    const nx = x / rect.width - 0.5;
-    const ny = y / rect.height - 0.5;
 
-    target.style.setProperty("--mx", `${x}px`);
-    target.style.setProperty("--my", `${y}px`);
-    target.style.setProperty("--rx", `${ny * -3.5}deg`);
-    target.style.setProperty("--ry", `${nx * 4.5}deg`);
+    const rect = target.getBoundingClientRect();
+    const nx = (event.clientX - rect.left) / rect.width - 0.5;
+    const ny = (event.clientY - rect.top) / rect.height - 0.5;
+
+    target.style.setProperty("--rx", `${ny * -8}deg`);
+    target.style.setProperty("--ry", `${nx * 10}deg`);
+  };
+
+  const resetTilt = (target: HTMLElement | null) => {
+    if (!target) return;
+    target.style.setProperty("--rx", "0deg");
+    target.style.setProperty("--ry", "0deg");
   };
 
   return (
@@ -124,18 +96,17 @@ export default function Home() {
         </nav>
       </header>
 
-      <section
-        id="top"
-        ref={heroRef}
-        className="hero"
-        onPointerMove={(event) => moveLight(event, heroRef.current)}
-      >
+      <section id="top" className="hero">
         <div className="hero-ambient" aria-hidden="true" />
-        <div className="hero-light" aria-hidden="true" />
         <div className="hero-vignette" aria-hidden="true" />
 
         <div className="hero-inner">
-          <div className="hero-logo-wrap">
+          <div
+            ref={logoRef}
+            className="hero-logo-wrap"
+            onPointerMove={(event) => moveTilt(event, logoRef.current)}
+            onPointerLeave={() => resetTilt(logoRef.current)}
+          >
             <div className="hero-logo-aura" aria-hidden="true" />
             <div className="hero-logo-glint" aria-hidden="true" />
             <Mark className="hero-mark" />
@@ -210,15 +181,12 @@ export default function Home() {
         </div>
 
         <a
-          ref={companyRef}
           className="company-feature"
           href="https://aevell.com"
           target="_blank"
           rel="noreferrer"
-          onPointerMove={(event) => moveLight(event, companyRef.current)}
           data-reveal
         >
-          <div className="company-light" aria-hidden="true" />
 
           <div className="company-content">
             <div className="company-meta">

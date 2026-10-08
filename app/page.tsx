@@ -4,12 +4,13 @@
 
 import { useEffect, useRef } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
+import { HALENN_MARK_SRC } from "./brand";
 
 function Mark({ className = "" }: { className?: string }) {
   return (
     <img
       className={className}
-      src="/halenn-mark.svg"
+      src={HALENN_MARK_SRC}
       alt=""
       aria-hidden="true"
       draggable={false}
@@ -117,9 +118,8 @@ export default function Home() {
           <p className="hero-kicker">Halenn · Parent company · Amsterdam</p>
 
           <h1>
-            A parent company
-            <br />
-            for what comes next.
+            <span>A parent company</span>
+            <span>for what comes next.</span>
           </h1>
 
           <p className="hero-sub">

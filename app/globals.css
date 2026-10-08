@@ -289,17 +289,25 @@ svg {
 }
 
 .hero h1 {
-  max-width: 980px;
-  margin: 22px 0 0;
-  font-size: clamp(62px, 8.4vw, 132px);
-  font-weight: 420;
-  letter-spacing: -0.075em;
-  line-height: 0.92;
+  width: min(1280px, 94vw);
+  margin: 26px 0 0;
+  color: #f4f5f7;
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(64px, 6.75vw, 108px);
+  font-weight: 520;
+  letter-spacing: -0.058em;
+  line-height: 0.96;
+  text-wrap: balance;
+}
+
+.hero h1 span {
+  display: block;
+  white-space: nowrap;
 }
 
 .hero-sub {
-  max-width: 600px;
-  margin: 28px auto 0;
+  max-width: 640px;
+  margin: 30px auto 0;
   color: #8b96a2;
   font-size: clamp(15px, 1.3vw, 18px);
   line-height: 1.68;
@@ -1620,4 +1628,23 @@ svg {
 .hero-logo-wrap .hero-mark {
   user-select: none;
   pointer-events: none;
+}
+
+
+@media (max-width: 880px) {
+  .hero h1 {
+    width: min(760px, 92vw);
+    font-size: clamp(58px, 10.5vw, 82px);
+  }
+
+  .hero h1 span {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero h1 {
+    font-size: clamp(48px, 15vw, 68px);
+    line-height: 0.98;
+  }
 }

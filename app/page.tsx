@@ -9,7 +9,7 @@ function Mark({ className = "" }: { className?: string }) {
   return (
     <img
       className={className}
-      src="/halenn-mark.webp"
+      src="/halenn-mark-approved.webp"
       alt=""
       aria-hidden="true"
       draggable={false}
@@ -100,18 +100,26 @@ export default function Home() {
     const nx = (event.clientX - rect.left) / rect.width - 0.5;
     const ny = (event.clientY - rect.top) / rect.height - 0.5;
 
-    target.style.setProperty("--rx", `${ny * -10}deg`);
-    target.style.setProperty("--ry", `${nx * 12}deg`);
+    const rotateX = ny * -14;
+    const rotateY = nx * 18;
+
+    target.style.transform =
+      `perspective(850px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-3px) scale(1.025)`;
+
     target.style.setProperty("--logo-x", `${(nx + 0.5) * 100}%`);
     target.style.setProperty("--logo-y", `${(ny + 0.5) * 100}%`);
+    target.style.setProperty("--shadow-x", `${nx * -14}px`);
+    target.style.setProperty("--shadow-y", `${10 + ny * 8}px`);
   };
 
   const resetTilt = (target: HTMLElement | null) => {
     if (!target) return;
-    target.style.setProperty("--rx", "0deg");
-    target.style.setProperty("--ry", "0deg");
+    target.style.transform =
+      "perspective(850px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)";
     target.style.setProperty("--logo-x", "50%");
     target.style.setProperty("--logo-y", "46%");
+    target.style.setProperty("--shadow-x", "0px");
+    target.style.setProperty("--shadow-y", "10px");
   };
 
   const placeTransfer = (

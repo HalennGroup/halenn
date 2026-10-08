@@ -179,33 +179,26 @@ svg {
 .hero-logo-wrap {
   --logo-x: 50%;
   --logo-y: 46%;
+  --shadow-x: 0px;
+  --shadow-y: 10px;
   position: relative;
   display: grid;
   width: clamp(190px, 18vw, 272px);
   aspect-ratio: 396 / 222;
   place-items: center;
   margin-bottom: 36px;
-  perspective: 1100px;
+  perspective: 850px;
   transform:
-    perspective(1100px)
-    rotateX(var(--rx))
-    rotateY(var(--ry))
+    perspective(850px)
+    rotateX(0deg)
+    rotateY(0deg)
     translateZ(0);
   transform-style: preserve-3d;
+  transform-origin: 50% 62%;
   transition:
-    transform 85ms linear,
-    filter 260ms ease;
+    transform 35ms linear,
+    filter 220ms ease;
   will-change: transform;
-}
-
-.hero-logo-wrap:hover,
-.hero-logo-wrap:focus-visible {
-  transform:
-    perspective(1100px)
-    rotateX(var(--rx))
-    rotateY(var(--ry))
-    translateY(-3px)
-    scale(1.018);
 }
 
 .hero-logo-wrap:focus-visible {
@@ -248,8 +241,8 @@ svg {
   opacity: 0;
   pointer-events: none;
   mix-blend-mode: screen;
-  -webkit-mask-image: url("/halenn-mark.webp");
-  mask-image: url("/halenn-mark.webp");
+  -webkit-mask-image: url("/halenn-mark-approved.webp");
+  mask-image: url("/halenn-mark-approved.webp");
   -webkit-mask-size: contain;
   mask-size: contain;
   -webkit-mask-position: center;
@@ -274,7 +267,7 @@ svg {
   object-fit: contain;
   transform: translateZ(18px);
   filter:
-    drop-shadow(0 9px 24px rgba(7, 14, 22, 0.72))
+    drop-shadow(var(--shadow-x) var(--shadow-y) 24px rgba(4, 10, 17, 0.78))
     drop-shadow(0 0 26px rgba(178, 202, 225, 0.11));
   transition:
     transform 520ms var(--ease),
@@ -284,8 +277,8 @@ svg {
 .hero-logo-wrap:hover .hero-mark {
   transform: translateZ(28px);
   filter:
-    drop-shadow(0 15px 28px rgba(3, 8, 13, 0.78))
-    drop-shadow(0 0 34px rgba(190, 212, 233, 0.2));
+    drop-shadow(var(--shadow-x) var(--shadow-y) 30px rgba(2, 7, 12, 0.84))
+    drop-shadow(0 0 34px rgba(190, 212, 233, 0.18));
 }
 
 .hero-kicker,

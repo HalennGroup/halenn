@@ -73,8 +73,8 @@ export default function Home() {
       pointerRef.current = { x: event.clientX, y: event.clientY };
 
       if (flashlightRef.current) {
-        flashlightRef.current.style.left = `${event.clientX}px`;
-        flashlightRef.current.style.top = `${event.clientY}px`;
+        flashlightRef.current.style.transform =
+          `translate3d(${event.clientX}px, ${event.clientY}px, 0) translate(-50%, -50%)`;
       }
     };
 
@@ -153,7 +153,7 @@ export default function Home() {
 
       transitionTimerRef.current = window.setTimeout(() => {
         setFlashlightMode("on");
-      }, 900);
+      }, 1550);
 
       return;
     }
@@ -163,7 +163,7 @@ export default function Home() {
 
     transitionTimerRef.current = window.setTimeout(() => {
       setFlashlightMode("off");
-    }, 760);
+    }, 1250);
   };
 
   return (

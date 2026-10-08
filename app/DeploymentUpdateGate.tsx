@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { HALENN_MARK_SRC } from "./brand";
 
 type LatestVersion = {
   build: string;
@@ -22,7 +23,7 @@ function UpdateMark() {
   return (
     <img
       className="deployment-update-mark"
-      src="/halenn-mark.svg"
+      src={HALENN_MARK_SRC}
       alt=""
       aria-hidden="true"
       draggable={false}

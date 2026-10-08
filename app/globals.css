@@ -289,14 +289,14 @@ svg {
 }
 
 .hero h1 {
-  width: min(1280px, 94vw);
+  width: min(1320px, 94vw);
   margin: 26px 0 0;
   color: #f4f5f7;
-  font-family: var(--font-body), sans-serif;
-  font-size: clamp(64px, 6.75vw, 108px);
-  font-weight: 520;
-  letter-spacing: -0.058em;
-  line-height: 0.96;
+  font-family: var(--font-display), var(--font-body), sans-serif;
+  font-size: clamp(62px, 6vw, 98px);
+  font-weight: 560;
+  letter-spacing: -0.045em;
+  line-height: 0.94;
   text-wrap: balance;
 }
 
@@ -1608,7 +1608,7 @@ svg {
 .system-left h2,
 .closing-inner h2,
 .company-content h3 {
-  font-family: var(--font-body), sans-serif;
+  font-family: var(--font-display), var(--font-body), sans-serif;
 }
 
 /* Approved logo artwork is treated as one fixed object everywhere. */
@@ -1633,8 +1633,8 @@ svg {
 
 @media (max-width: 880px) {
   .hero h1 {
-    width: min(760px, 92vw);
-    font-size: clamp(58px, 10.5vw, 82px);
+    width: min(820px, 92vw);
+    font-size: clamp(56px, 10vw, 78px);
   }
 
   .hero h1 span {

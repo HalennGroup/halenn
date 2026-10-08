@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Michroma } from "next/font/google";
+import { Geist, Michroma, Syne } from "next/font/google";
 import DeploymentUpdateGate from "./DeploymentUpdateGate";
 import "./globals.css";
 
@@ -13,6 +13,12 @@ const brandFont = Michroma({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-brand",
+  display: "swap",
+});
+
+const displayFont = Syne({
+  subsets: ["latin"],
+  variable: "--font-display",
   display: "swap",
 });
 
@@ -52,7 +58,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${bodyFont.variable} ${brandFont.variable}`}>
+      <body className={`${bodyFont.variable} ${brandFont.variable} ${displayFont.variable}`}>
         {children}
         <DeploymentUpdateGate currentBuild={currentBuild} />
       </body>

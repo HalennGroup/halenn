@@ -4,13 +4,12 @@
 
 import { useEffect, useRef } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
-import { HALENN_MARK_SRC } from "./brand";
 
 function Mark({ className = "" }: { className?: string }) {
   return (
     <img
       className={className}
-      src={HALENN_MARK_SRC}
+      src="/halenn-mark.webp"
       alt=""
       aria-hidden="true"
       draggable={false}

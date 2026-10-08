@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Michroma, Space_Grotesk } from "next/font/google";
+import { Geist, Michroma } from "next/font/google";
 import DeploymentUpdateGate from "./DeploymentUpdateGate";
 import "./globals.css";
 
-const bodyFont = Space_Grotesk({
+const bodyFont = Geist({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",

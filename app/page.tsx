@@ -3,13 +3,12 @@
 // Halenn production landing
 
 import { useEffect, useRef, useState } from "react";
-import type { PointerEvent as ReactPointerEvent } from "react";
 
 function Mark({ className = "" }: { className?: string }) {
   return (
     <img
       className={className}
-      src="/halenn-mark-approved.webp"
+      src="/halenn-mark-cinematic.webp"
       alt=""
       aria-hidden="true"
       draggable={false}
@@ -90,36 +89,24 @@ export default function Home() {
     };
   }, []);
 
-  const moveTilt = (
-    event: ReactPointerEvent<HTMLElement>,
+  const moveLogoLight = (
+    event: React.PointerEvent<HTMLElement>,
     target: HTMLElement | null
   ) => {
     if (!target) return;
 
     const rect = target.getBoundingClientRect();
-    const nx = (event.clientX - rect.left) / rect.width - 0.5;
-    const ny = (event.clientY - rect.top) / rect.height - 0.5;
+    const x = ((event.clientX - rect.left) / rect.width) * 100;
+    const y = ((event.clientY - rect.top) / rect.height) * 100;
 
-    const rotateX = ny * -14;
-    const rotateY = nx * 18;
-
-    target.style.transform =
-      `perspective(850px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-3px) scale(1.025)`;
-
-    target.style.setProperty("--logo-x", `${(nx + 0.5) * 100}%`);
-    target.style.setProperty("--logo-y", `${(ny + 0.5) * 100}%`);
-    target.style.setProperty("--shadow-x", `${nx * -14}px`);
-    target.style.setProperty("--shadow-y", `${10 + ny * 8}px`);
+    target.style.setProperty("--logo-x", `${x}%`);
+    target.style.setProperty("--logo-y", `${y}%`);
   };
 
-  const resetTilt = (target: HTMLElement | null) => {
+  const resetLogoLight = (target: HTMLElement | null) => {
     if (!target) return;
-    target.style.transform =
-      "perspective(850px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)";
     target.style.setProperty("--logo-x", "50%");
     target.style.setProperty("--logo-y", "46%");
-    target.style.setProperty("--shadow-x", "0px");
-    target.style.setProperty("--shadow-y", "10px");
   };
 
   const placeTransfer = (
@@ -216,11 +203,12 @@ export default function Home() {
                 : "Turn on Halenn cursor light"
             }
             aria-pressed={flashlightMode === "on"}
-            onPointerMove={(event) => moveTilt(event, logoRef.current)}
-            onPointerLeave={() => resetTilt(logoRef.current)}
+            onPointerMove={(event) => moveLogoLight(event, logoRef.current)}
+            onPointerLeave={() => resetLogoLight(logoRef.current)}
             onClick={toggleFlashlight}
           >
-            <div className="hero-logo-aura" aria-hidden="true" />
+            <div className="hero-logo-floor" aria-hidden="true" />
+            <div className="hero-logo-ambient" aria-hidden="true" />
             <div className="hero-logo-light" aria-hidden="true" />
             <Mark className="hero-mark" />
           </button>

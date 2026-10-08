@@ -22,7 +22,7 @@ function UpdateMark() {
   return (
     <img
       className="deployment-update-mark"
-      src="/halenn-mark-approved.webp"
+      src="/halenn-mark-cinematic.webp"
       alt=""
       aria-hidden="true"
       draggable={false}

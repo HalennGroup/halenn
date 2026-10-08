@@ -69,26 +69,23 @@ svg {
   width: 64px;
   height: 58px;
   place-items: center;
-  perspective: 500px;
 }
 
 .nav-mark {
   width: 46px;
   height: auto;
-  transform: translateZ(0);
   filter:
-    drop-shadow(0 6px 12px rgba(0, 0, 0, 0.42))
-    drop-shadow(0 0 16px rgba(176, 199, 221, 0.12));
+    drop-shadow(0 7px 14px rgba(0, 0, 0, 0.46))
+    drop-shadow(0 0 14px rgba(176, 199, 221, 0.10));
   transition:
-    transform 420ms var(--ease),
-    filter 320ms ease;
+    filter 280ms ease,
+    opacity 280ms ease;
 }
 
 .nav-logo:hover .nav-mark {
-  transform: translateY(-1px) rotateX(8deg) rotateY(-8deg) scale(1.035);
   filter:
-    drop-shadow(0 10px 18px rgba(0, 0, 0, 0.46))
-    drop-shadow(0 0 22px rgba(185, 207, 229, 0.2));
+    drop-shadow(0 10px 18px rgba(0, 0, 0, 0.52))
+    drop-shadow(0 0 24px rgba(190, 214, 238, 0.20));
 }
 
 .nav-links {
@@ -179,106 +176,144 @@ svg {
 .hero-logo-wrap {
   --logo-x: 50%;
   --logo-y: 46%;
-  --shadow-x: 0px;
-  --shadow-y: 10px;
   position: relative;
   display: grid;
-  width: clamp(190px, 18vw, 272px);
-  aspect-ratio: 396 / 222;
+  width: clamp(230px, 20vw, 330px);
+  aspect-ratio: 2 / 1;
   place-items: center;
-  margin-bottom: 36px;
-  perspective: 850px;
-  transform:
-    perspective(850px)
-    rotateX(0deg)
-    rotateY(0deg)
-    translateZ(0);
-  transform-style: preserve-3d;
-  transform-origin: 50% 62%;
-  transition:
-    transform 35ms linear,
-    filter 220ms ease;
-  will-change: transform;
+  margin-bottom: 34px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  transform: none;
 }
 
 .hero-logo-wrap:focus-visible {
-  outline: 1px solid rgba(210, 226, 241, 0.32);
+  outline: 1px solid rgba(210, 226, 241, 0.26);
   outline-offset: 14px;
 }
 
-.hero-logo-aura {
+.hero-logo-floor {
   position: absolute;
-  width: 72%;
-  height: 22%;
-  bottom: 5%;
+  z-index: 1;
+  left: 50%;
+  bottom: -7%;
+  width: 112%;
+  height: 34%;
+  transform: translateX(-50%);
   border-radius: 50%;
-  background: rgba(136, 166, 198, 0.26);
-  filter: blur(32px);
-  opacity: 0.38;
-  transform: translateZ(-24px);
-  transition:
-    opacity 300ms ease,
-    transform 500ms var(--ease);
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(193, 218, 244, 0.42) 0%,
+      rgba(130, 167, 205, 0.24) 28%,
+      rgba(74, 105, 140, 0.10) 55%,
+      transparent 78%
+    );
+  filter: blur(27px);
+  opacity: 0.84;
+  pointer-events: none;
+  animation: halenn-floor-breathe 7.5s ease-in-out infinite;
 }
 
-.hero-logo-wrap:hover .hero-logo-aura {
-  opacity: 0.64;
-  transform: translateZ(-28px) scaleX(1.12);
+.hero-logo-ambient {
+  position: absolute;
+  z-index: 2;
+  inset: -18%;
+  pointer-events: none;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 50% 48%,
+      rgba(205, 226, 246, 0.12),
+      rgba(115, 151, 187, 0.06) 34%,
+      transparent 66%
+    );
+  filter: blur(24px);
+  opacity: 0.62;
+  animation: halenn-ambient-breathe 8.5s ease-in-out infinite;
 }
 
 .hero-logo-light {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
   background:
     radial-gradient(
       circle at var(--logo-x) var(--logo-y),
-      rgba(247, 251, 255, 0.62) 0%,
-      rgba(206, 224, 242, 0.24) 16%,
-      rgba(142, 170, 199, 0.09) 34%,
-      transparent 58%
+      rgba(255,255,255,0.76) 0%,
+      rgba(226,238,250,0.40) 10%,
+      rgba(168,196,224,0.18) 22%,
+      rgba(101,134,168,0.07) 37%,
+      transparent 57%
     );
-  opacity: 0;
-  pointer-events: none;
   mix-blend-mode: screen;
-  -webkit-mask-image: url("/halenn-mark-approved.webp");
-  mask-image: url("/halenn-mark-approved.webp");
+  -webkit-mask-image: url("/halenn-mark-cinematic.webp");
+  mask-image: url("/halenn-mark-cinematic.webp");
   -webkit-mask-size: contain;
   mask-size: contain;
   -webkit-mask-position: center;
   mask-position: center;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  filter: blur(1.5px);
-  transform: translateZ(34px);
+  filter: blur(2.2px);
   transition: opacity 180ms ease;
 }
 
 .hero-logo-wrap:hover .hero-logo-light,
 .hero-logo-wrap:focus-visible .hero-logo-light {
-  opacity: 0.92;
+  opacity: 1;
 }
 
 .hero-mark {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   width: 100%;
   height: auto;
   object-fit: contain;
-  transform: translateZ(18px);
+  user-select: none;
+  pointer-events: none;
   filter:
-    drop-shadow(var(--shadow-x) var(--shadow-y) 24px rgba(4, 10, 17, 0.78))
-    drop-shadow(0 0 26px rgba(178, 202, 225, 0.11));
+    drop-shadow(0 14px 30px rgba(0,0,0,0.62))
+    drop-shadow(0 0 28px rgba(173,204,234,0.11));
   transition:
-    transform 520ms var(--ease),
-    filter 320ms ease;
+    filter 260ms ease,
+    opacity 260ms ease;
 }
 
-.hero-logo-wrap:hover .hero-mark {
-  transform: translateZ(28px);
+.hero-logo-wrap:hover .hero-mark,
+.hero-logo-wrap:focus-visible .hero-mark {
   filter:
-    drop-shadow(var(--shadow-x) var(--shadow-y) 30px rgba(2, 7, 12, 0.84))
-    drop-shadow(0 0 34px rgba(190, 212, 233, 0.18));
+    drop-shadow(0 18px 36px rgba(0,0,0,0.72))
+    drop-shadow(0 0 38px rgba(188,216,243,0.18));
+}
+
+@keyframes halenn-floor-breathe {
+  0%, 100% {
+    opacity: 0.72;
+    transform: translateX(-50%) scaleX(0.96);
+  }
+  50% {
+    opacity: 0.94;
+    transform: translateX(-50%) scaleX(1.04);
+  }
+}
+
+@keyframes halenn-ambient-breathe {
+  0%, 100% {
+    opacity: 0.50;
+    transform: scale(0.985);
+  }
+  50% {
+    opacity: 0.76;
+    transform: scale(1.02);
+  }
 }
 
 .hero-kicker,
@@ -1226,10 +1261,6 @@ svg {
     );
   }
 
-  .hero-logo-wrap {
-    transform: none;
-  }
-
   .company-feature:hover,
   .system-node:hover {
     transform: none;
@@ -1255,13 +1286,6 @@ svg {
   }
 }
 
-
-/* Halenn mark identity: the two pieces keep a permanent center gap everywhere. */
-.mark-left,
-.mark-right {
-  transform: none;
-  transform-origin: center;
-}
 
 
 /* Deployment freshness gate */

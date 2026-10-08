@@ -2,7 +2,7 @@
 
 // Halenn production landing
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 
 function Mark({ className = "" }: { className?: string }) {
@@ -44,7 +44,14 @@ const principles = [
 ];
 
 export default function Home() {
-  const logoRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLButtonElement>(null);
+  const flashlightRef = useRef<HTMLDivElement>(null);
+  const transferRef = useRef<HTMLDivElement>(null);
+  const pointerRef = useRef({ x: 0, y: 0 });
+  const transitionTimerRef = useRef<number | null>(null);
+  const [flashlightMode, setFlashlightMode] = useState<
+    "off" | "activating" | "on" | "deactivating"
+  >("off");
 
   useEffect(() => {
     const items = document.querySelectorAll<HTMLElement>("[data-reveal]");
@@ -61,7 +68,26 @@ export default function Home() {
     );
 
     items.forEach((item) => observer.observe(item));
-    return () => observer.disconnect();
+
+    const trackPointer = (event: PointerEvent) => {
+      pointerRef.current = { x: event.clientX, y: event.clientY };
+
+      if (flashlightRef.current) {
+        flashlightRef.current.style.left = `${event.clientX}px`;
+        flashlightRef.current.style.top = `${event.clientY}px`;
+      }
+    };
+
+    window.addEventListener("pointermove", trackPointer, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("pointermove", trackPointer);
+
+      if (transitionTimerRef.current) {
+        window.clearTimeout(transitionTimerRef.current);
+      }
+    };
   }, []);
 
   const moveTilt = (
@@ -74,18 +100,87 @@ export default function Home() {
     const nx = (event.clientX - rect.left) / rect.width - 0.5;
     const ny = (event.clientY - rect.top) / rect.height - 0.5;
 
-    target.style.setProperty("--rx", `${ny * -8}deg`);
-    target.style.setProperty("--ry", `${nx * 10}deg`);
+    target.style.setProperty("--rx", `${ny * -10}deg`);
+    target.style.setProperty("--ry", `${nx * 12}deg`);
+    target.style.setProperty("--logo-x", `${(nx + 0.5) * 100}%`);
+    target.style.setProperty("--logo-y", `${(ny + 0.5) * 100}%`);
   };
 
   const resetTilt = (target: HTMLElement | null) => {
     if (!target) return;
     target.style.setProperty("--rx", "0deg");
     target.style.setProperty("--ry", "0deg");
+    target.style.setProperty("--logo-x", "50%");
+    target.style.setProperty("--logo-y", "46%");
+  };
+
+  const placeTransfer = (
+    fromX: number,
+    fromY: number,
+    toX: number,
+    toY: number
+  ) => {
+    if (!transferRef.current) return;
+
+    transferRef.current.style.setProperty("--from-x", `${fromX}px`);
+    transferRef.current.style.setProperty("--from-y", `${fromY}px`);
+    transferRef.current.style.setProperty("--to-x", `${toX}px`);
+    transferRef.current.style.setProperty("--to-y", `${toY}px`);
+  };
+
+  const toggleFlashlight = () => {
+    if (
+      flashlightMode === "activating" ||
+      flashlightMode === "deactivating" ||
+      !logoRef.current
+    ) {
+      return;
+    }
+
+    const rect = logoRef.current.getBoundingClientRect();
+    const logoX = rect.left + rect.width / 2;
+    const logoY = rect.top + rect.height / 2;
+    const cursorX = pointerRef.current.x || logoX;
+    const cursorY = pointerRef.current.y || logoY;
+
+    if (transitionTimerRef.current) {
+      window.clearTimeout(transitionTimerRef.current);
+    }
+
+    if (flashlightMode === "off") {
+      placeTransfer(logoX, logoY, cursorX, cursorY);
+      setFlashlightMode("activating");
+
+      transitionTimerRef.current = window.setTimeout(() => {
+        setFlashlightMode("on");
+      }, 900);
+
+      return;
+    }
+
+    placeTransfer(cursorX, cursorY, logoX, logoY);
+    setFlashlightMode("deactivating");
+
+    transitionTimerRef.current = window.setTimeout(() => {
+      setFlashlightMode("off");
+    }, 760);
   };
 
   return (
     <main>
+      <div
+        ref={flashlightRef}
+        className={`cursor-flashlight is-${flashlightMode}`}
+        aria-hidden="true"
+      >
+        <span className="cursor-flashlight-core" />
+      </div>
+
+      <div
+        ref={transferRef}
+        className={`light-transfer is-${flashlightMode}`}
+        aria-hidden="true"
+      />
       <header className="site-header">
         <a className="nav-logo" href="#top" aria-label="Halenn home">
           <Mark className="nav-mark" />
@@ -103,16 +198,24 @@ export default function Home() {
         <div className="hero-vignette" aria-hidden="true" />
 
         <div className="hero-inner">
-          <div
+          <button
             ref={logoRef}
+            type="button"
             className="hero-logo-wrap"
+            aria-label={
+              flashlightMode === "on"
+                ? "Turn off Halenn cursor light"
+                : "Turn on Halenn cursor light"
+            }
+            aria-pressed={flashlightMode === "on"}
             onPointerMove={(event) => moveTilt(event, logoRef.current)}
             onPointerLeave={() => resetTilt(logoRef.current)}
+            onClick={toggleFlashlight}
           >
             <div className="hero-logo-aura" aria-hidden="true" />
-            <div className="hero-logo-glint" aria-hidden="true" />
+            <div className="hero-logo-light" aria-hidden="true" />
             <Mark className="hero-mark" />
-          </div>
+          </button>
 
           <p className="hero-kicker">Halenn · Parent company · Amsterdam</p>
 

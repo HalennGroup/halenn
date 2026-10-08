@@ -242,33 +242,26 @@ svg {
   position: absolute;
   inset: 0;
   z-index: 4;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
   pointer-events: none;
   opacity: 0;
-  background:
-    radial-gradient(
-      circle at var(--logo-x) var(--logo-y),
-      rgba(255,255,255,0.76) 0%,
-      rgba(226,238,250,0.40) 10%,
-      rgba(168,196,224,0.18) 22%,
-      rgba(101,134,168,0.07) 37%,
-      transparent 57%
-    );
   mix-blend-mode: screen;
-  -webkit-mask-image: url("/halenn-mark-cinematic.webp");
-  mask-image: url("/halenn-mark-cinematic.webp");
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  -webkit-mask-position: center;
-  mask-position: center;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  filter: blur(2.2px);
-  transition: opacity 180ms ease;
+  filter:
+    brightness(1.5)
+    contrast(1.06)
+    drop-shadow(0 0 24px rgba(198, 222, 245, 0.22));
+  -webkit-mask-image:
+    radial-gradient(circle at var(--logo-x) var(--logo-y), #000 0%, rgba(0,0,0,.92) 11%, rgba(0,0,0,.46) 30%, transparent 55%);
+  mask-image:
+    radial-gradient(circle at var(--logo-x) var(--logo-y), #000 0%, rgba(0,0,0,.92) 11%, rgba(0,0,0,.46) 30%, transparent 55%);
+  transition: opacity 160ms ease;
 }
 
 .hero-logo-wrap:hover .hero-logo-light,
 .hero-logo-wrap:focus-visible .hero-logo-light {
-  opacity: 1;
+  opacity: 0.95;
 }
 
 .hero-mark {

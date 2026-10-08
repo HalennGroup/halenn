@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { HALENN_LOGO_SRC } from "./halennLogo";
 
 type LatestVersion = {
   build: string;
@@ -22,7 +23,7 @@ function UpdateMark() {
   return (
     <img
       className="deployment-update-mark"
-      src="/halenn-mark-cinematic.webp"
+      src={HALENN_LOGO_SRC}
       alt=""
       aria-hidden="true"
       draggable={false}

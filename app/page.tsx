@@ -3,12 +3,13 @@
 // Halenn production landing
 
 import { useEffect, useRef, useState } from "react";
+import { HALENN_LOGO_SRC } from "./halennLogo";
 
 function Mark({ className = "" }: { className?: string }) {
   return (
     <img
       className={className}
-      src="/halenn-mark-cinematic.webp"
+      src={HALENN_LOGO_SRC}
       alt=""
       aria-hidden="true"
       draggable={false}
@@ -209,7 +210,7 @@ export default function Home() {
           >
             <div className="hero-logo-floor" aria-hidden="true" />
             <div className="hero-logo-ambient" aria-hidden="true" />
-            <div className="hero-logo-light" aria-hidden="true" />
+            <Mark className="hero-logo-light" />
             <Mark className="hero-mark" />
           </button>
 
